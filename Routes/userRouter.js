@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
 // get all users
 router.get("/", async (req, res) => {
     try {
-        const getAll = await User.find({});
+        const getAll = await User.find({}, { password: 0 });
         res.status(200).send(getAll)
     } catch (error) {
         res.status(500).send({ msg: error });
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
 // get user by ID
 router.get("/:id", async (req, res) => {
     try {
-        const getUser = await User.find({ _id: req.params.id });
+        const getUser = await User.find({ _id: req.params.id }, { password: 0 });
         res.status(200).send(getUser)
     } catch (error) {
         res.status(500).send({ msg: error });

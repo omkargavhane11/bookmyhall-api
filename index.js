@@ -52,7 +52,7 @@ app.get("/rooms", async (req, res) => {
 app.put("/book/:roomId", async (req, res) => {
     try {
         // update room
-        const updateRoomAvailability = await Room.updateOne({ _id: req.params.roomId }, { $set: { isBooked: true, bookedBy: req.body.bookedBy } });
+        const updateRoomAvailability = await Room.updateOne({ _id: req.params.roomId }, { $set: { isBooked: true, bookedBy: req.body.bookedBy, bookDate: req.body.bookedDate } });
 
         // update user booked room status
         const updateUser = await User.updateOne({ _id: req.body.bookedBy }, { $set: { hasBookedRoom: true, bookedRoom: req.params.roomId } })
@@ -68,7 +68,7 @@ app.put("/book/:roomId", async (req, res) => {
 // ✅list all rooms with book data (room name, booked status, customer name, date, start time, end time) 
 app.get("/bookedrooms", async (req, res) => {
     try {
-        const bookedRooms = await Room.find({ isBooked: true });
+        const bookedRooms = await Room.find({ isBooked: true }).populate("bookedBy", "-password");
         res.status(200).send(bookedRooms);
     } catch (error) {
         res.status(500).send(error.message);
@@ -79,7 +79,7 @@ app.get("/bookedrooms", async (req, res) => {
 // ✅list all customers with booked data with (customer name, room name, date, start time, end time)
 app.get("/users/bookings", async (req, res) => {
     try {
-        const customers = await User.find({ hasBookedRoom: true })
+        const customers = await User.find({ hasBookedRoom: true }).populate("bookedRoom");
         res.status(200).send(customers);
     } catch (error) {
         res.status(500).send({ res: "unsuccessfull", error: error.message });

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -32,8 +33,9 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     bookedRoom: {
-        type: Object,
-        default: {}
+        type: Schema.Types.ObjectId,
+        ref: "Room",
+        default: null,
     }
 
 },

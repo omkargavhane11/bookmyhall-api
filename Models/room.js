@@ -20,6 +20,11 @@ const roomSchema = new mongoose.Schema({
     },
     bookedBy: {
         type: Schema.Types.ObjectId,
+        ref: "User",
+        default: null
+    },
+    bookDate: {
+        type: Date,
         default: null
     }
 },
