@@ -87,4 +87,4 @@ app.get("/users/bookings", async (req, res) => {
 })
 
 
-app.listen(8080, () => console.log("Server started..."));   
+app.listen(process.env.PORT, () => console.log("Server started..."));   
