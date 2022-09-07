@@ -68,7 +68,7 @@ app.put("/book/:roomId", async (req, res) => {
 // ✅list all rooms with book data (room name, booked status, customer name, date, start time, end time) 
 app.get("/bookedrooms", async (req, res) => {
     try {
-        const bookedRooms = await Room.find({ isBooked: true }).populate("bookedBy", "-password");
+        const bookedRooms = await Room.find({ isBooked: true }).populate("bookedBy", "name _id");
         res.status(200).send(bookedRooms);
     } catch (error) {
         res.status(500).send(error.message);
@@ -87,4 +87,4 @@ app.get("/users/bookings", async (req, res) => {
 })
 
 
-app.listen(8080, () => console.log("Server started..."));
+app.listen(8080, () => console.log("Server started..."));   
